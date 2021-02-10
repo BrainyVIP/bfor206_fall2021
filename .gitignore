@@ -127,3 +127,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+##############################################
+# bash things to ignore
+*.swp
