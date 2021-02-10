@@ -1,6 +1,7 @@
 #! /bin/bash
 
 echo "The number of arguments is:" $# 
+echo "The arguments are $*"
 echo "The first argument is: " $1
 
 # prints the name of the script
