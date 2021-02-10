@@ -26,5 +26,5 @@ and prints the sum and product of the two numbers.
 
 # Submission instructions
 When you are finished, submit two screenshots:
-1.  A screenshot of the Description
+1.  A screenshot of your code.
 2.  A screenshot of correct output.
