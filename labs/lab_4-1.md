@@ -52,7 +52,7 @@ see the
 8
 
 # Output:
-0 1 1 2 3 5 8 
+0 1 1 2 3 5 8
 
 ######### Special Cases ##########
 
@@ -69,6 +69,8 @@ see the
 
 # Output:
 0 1
+# OR
+0 1 1
 
 ```
 
