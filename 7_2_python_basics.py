@@ -26,6 +26,8 @@ We'll cover variables, if statements, and for loops.
 To run a single line or selection, F9
 
 To run an entire cell, Ctrl + Enter
+
+To run an entire cell and jump to the next cell, Shift + Enter
 """
 
 #%% define variables
@@ -76,11 +78,16 @@ my_list = ["Hello", "BFOR", 206, None, "Bye!"]
 
 for item in my_list:
     print("the item is ", item)
+    
+    if item is None:
+        print('item is none!')
+
+    if item is not None:
+        print('item has a value:', item)
 
 
 
-
-
+print("Done.")
 
 
 
