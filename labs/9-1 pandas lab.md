@@ -42,7 +42,8 @@ Plot a histogram of vehicle weights (`wt` column)
 
 ## Case 3: Extra Credit
 
-Programmatically find and print the row for the vehicle with the highest weight. (1pt)
+Programmatically find and print the row for the vehicle with
+the highest weight. (1pt)
 
 # Submission instructions
 
