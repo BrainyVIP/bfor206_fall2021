@@ -5,7 +5,8 @@
 # Task Description
 
 You can import external libraries into your
-Python script. These libraries, sometimes referred to as modules or
+Python script. These libraries, sometimes referred to as
+modules or
 pa, contain classes and methods to perform
 various tasks.
 
