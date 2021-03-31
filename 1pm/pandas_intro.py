@@ -10,7 +10,7 @@ Created on Mon Mar 29 13:18:50 2021
 
 import numpy as np # this is an alias
 import pandas as pd # also an alias
-from matplotlib.pyplot import hist
+# from matplotlib.pyplot import hist
 
 #%% create a random matrix
 
@@ -67,10 +67,13 @@ random_df.describe(include='all')
 
 # getting information by group
 
-random_df.groupby('group')[['C', 'D']].mean()
+random_df.groupby('group')[['C', 'D']].sum()
 
 # get means of all columns by group 
 df_summary = random_df.groupby('group').mean()
+
+# save dataframe to csv file
+random_df.to_csv('data/random_df.csv')
 
 #%% lab start
 mtcars = pd.read_csv('data/mtcars.csv')

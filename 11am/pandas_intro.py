@@ -88,6 +88,8 @@ random_df.groupby('group')['C', 'D'].mean()
 # run it for all columns and store result in a new variable
 df_summary = random_df.groupby('group').mean()
 
+# write the data to an external file
+random_df.to_csv('data/random_df.csv')
 
 #%% start on the lab
 
