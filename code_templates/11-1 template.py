@@ -30,7 +30,9 @@ import pandas as pd
 # join them together
 # https://stackoverflow.com/questions/32444138/concatenate-a-list-of-pandas-dataframes-together
 
-# get a random sample of data to see if things work
+
+# get a random sample of data to see if things work without
+# taking forever!
 
 
 
