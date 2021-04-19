@@ -117,3 +117,69 @@ dow_plot.get_figure().savefig('lab11-2.jpeg')
 aiml_data['created_date'].dt.date
 
 aiml_data.groupby(aiml_data['created_date'].dt.date)['created_date'].count().plot()
+
+
+
+
+""" ######################################## """
+#%% 12-1 Text Processing
+
+# https://stackoverflow.com/questions/46786211/counting-the-frequency-of-words-in-a-pandas-data-frame
+
+words = aiml_data['post'].str.split(expand=True).stack().value_counts()
+print(words[:10])
+
+# fix case issues
+test_string = "ClAsS tImE"
+test_string.lower()
+
+# count after lowercase
+words = aiml_data['post'].str.lower().str.split(expand=True).stack().value_counts()
+print(words[:10])
+
+
+#%% nltk setup
+
+# only need to run this once!
+"""
+import nltk
+
+nltk.download('vader_lexicon')
+# comment this out once you are done. 
+
+"""
+
+#%% load nltk sentiment analyzer
+
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+nltk_sentiment = SentimentIntensityAnalyzer()
+
+#%% get sentiment for each row
+
+# using a lambda (aka temporary function)
+full_sent = aiml_data['title'].apply(lambda x: nltk_sentiment.polarity_scores(x))
+
+# or just pass the method you want to use to the apply function
+full_sent = aiml_data['title'].apply(nltk_sentiment.polarity_scores)
+
+
+#%% dictionary example 
+
+new_dict = {'key1': 'value1', 'key2': 2}
+
+new_dict['key1']
+new_dict.keys()
+new_dict.values()
+
+
+#%% get the compund score and add that to the main dataframe
+
+aiml_data['title_sentiment'] = full_sent.apply(lambda x: x['compound'])
+
+#%% get most positive/negative
+
+most_positive = aiml_data.loc[aiml_data['title_sentiment'].idxmax()]
+print("the most positive title is:", most_positive[['title', 'title_sentiment']])
+
+most_negative = aiml_data.loc[aiml_data['title_sentiment'].idxmin()]
+print("the most negative title is:", most_negative[['title', 'title_sentiment']])

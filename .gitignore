@@ -133,3 +133,4 @@ dmypy.json
 # bash things to ignore
 *.swp
 .pylint.d/7_2_python_basics1.stats
+lab11-2.jpeg
