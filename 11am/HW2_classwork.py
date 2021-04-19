@@ -125,5 +125,66 @@ aiml_data.groupby(aiml_data['created_date'].dt.date)['created_date'].count().plo
 
 
 
+#%% 12-1 Text analysis
+
+# this example is from:
+# https://stackoverflow.com/questions/46786211/counting-the-frequency-of-words-in-a-pandas-data-frame
+
+# count words
+words = aiml_data['post'].str.split(expand=True).stack().value_counts()
+print(words[:10])
+
+# fix the lowercase/uppercase issue
+# example on a single string
+test_string = "HeLlO pEoPlE"
+test_string.split()
+
+# add the lowercase conversion
+words = aiml_data['post'].str.lower().str.split(expand=True).stack().value_counts()
+print(words[:10])
 
 
+#%% start nltk and download
+
+import nltk
+# install sentiment analysis tool if not already installed:
+# only need to run this once
+# nltk.download('vader_lexicon')
+
+
+#%% import the sentiment analyzer
+
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
+# create a new sentiment analyzer instance
+nltk_sentiment = SentimentIntensityAnalyzer()
+
+
+#%% get sentiment on post titles
+
+# lambdas are small functions
+# we can apply these to each row of the data
+full_sent = aiml_data['title'].apply(lambda x: nltk_sentiment.polarity_scores(x))
+
+""" intro to dictionaries"""
+
+new_dict = {'key1': 'value1', 'key2': 2}
+
+# get the value stored for a key
+new_dict['key1']
+new_dict.keys()
+new_dict.values()
+
+aiml_data['title_sentiment'] = full_sent.apply(lambda x: x['compound'])
+
+print(aiml_data[['title', 'title_sentiment']].head(10))
+
+
+#%% most pos & negative posts
+
+most_positive = aiml_data.loc[aiml_data['title_sentiment'].idxmax()]
+most_negative = aiml_data.loc[aiml_data['title_sentiment'].idxmin()]
+
+print("The most positive title is ", most_positive[['title', 'title_sentiment']])
+
+print("The most positive title is ", most_negative[['title', 'title_sentiment']])
