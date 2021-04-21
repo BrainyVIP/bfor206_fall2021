@@ -188,3 +188,63 @@ most_negative = aiml_data.loc[aiml_data['title_sentiment'].idxmin()]
 print("The most positive title is ", most_positive[['title', 'title_sentiment']])
 
 print("The most positive title is ", most_negative[['title', 'title_sentiment']])
+
+
+
+
+
+#%% 12-2 regex
+
+import re
+
+""" 
+we want to find URLs from the body of a post
+
+"""
+
+def find_urls(string):
+    """ look for urls in a string and return them """
+    
+    print(string)
+    
+    """
+    # more complicated partial solution:
+    if pd.isna(string):
+        print('found nan')
+    
+    """
+    
+    
+    # search the string for URLs
+    # force it to a string type with str()
+    # URL string is from
+    # https://stackoverflow.com/questions/6883049/
+    urls = re.findall(r'https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+', str(string))
+    
+    
+    """
+    NOTE:
+        There is a better URL regex from http://urlregex.com/
+        Thanks to Anthony B.!
+        urls = re.findall(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', str(string))
+    """
+    
+    
+    # return something to the line that called the function
+    return urls
+
+
+#%% run the function
+urls = aiml_data['post'].apply(lambda x: find_urls(x))
+
+#%% convert to a list
+
+
+url_list = urls.tolist() # not quite!
+
+# convert list of lists to a flat list
+# https://stackoverflow.com/questions/952914/how-to-make-a-flat-list-out-of-a-list-of-lists
+
+# exchange `t` in the original to `url_list`
+
+flat_list = [item for sublist in url_list for item in sublist]
