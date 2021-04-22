@@ -183,3 +183,49 @@ print("the most positive title is:", most_positive[['title', 'title_sentiment']]
 
 most_negative = aiml_data.loc[aiml_data['title_sentiment'].idxmin()]
 print("the most negative title is:", most_negative[['title', 'title_sentiment']])
+
+
+
+
+#%% 12-2 regular expressions
+
+""" 
+we want to find the URLs that are contained in a post body.
+
+"""
+import re
+
+#%% define a separate function to check for URLs
+def find_urls(string):
+    """ check a string for the presence of URLs, if found
+    return a list of those URLs
+    """
+    
+    # print out each row, the last row printed before an error
+    # is our offending row
+    print(string)
+    
+    
+    # https://stackoverflow.com/questions/6883049/regex-to-extract-urls-from-href-attribute-in-html-with-python
+    
+    
+    
+    # urls = re.findall('https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+', str(string))
+    # try this one from urlregex.com
+    urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', str(string))
+    return urls   
+    
+
+#%% run the function
+urls = aiml_data['post'].apply(lambda x: find_urls(x))
+
+# we have a pandas Series
+# we want to convert this to a list of all of the urls
+
+url_list = urls.tolist()
+
+# https://stackoverflow.com/questions/952914/how-to-make-a-flat-list-out-of-a-list-of-lists
+
+flat_list = [item for sublist in url_list for item in sublist]
+
+
