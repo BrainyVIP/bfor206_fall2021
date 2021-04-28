@@ -138,6 +138,25 @@ words = aiml_data['post'].str.lower().str.split(expand=True).stack().value_count
 print(words[:10])
 
 
+"""
+on some systems, the method above causes 
+errors with memory allocation
+"""
+#https://stackoverflow.com/questions/18936957/count-distinct-words-from-a-pandas-data-frame
+
+# this method gives an error on empty posts
+# convert the column so that everything string
+
+aiml_data['post'] = aiml_data['post'].apply(str)
+
+
+from collections import Counter
+results = Counter()
+aiml_data['post'].str.lower().str.split().apply(results.update)
+# print(results)
+results.most_common(10)
+
+
 #%% nltk setup
 
 # only need to run this once!
