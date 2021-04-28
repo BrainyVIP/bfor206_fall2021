@@ -144,6 +144,32 @@ words = aiml_data['post'].str.lower().str.split(expand=True).stack().value_count
 print(words[:10])
 
 
+
+"""
+some machines have problems with memory allocation if 
+using the above method, this method should solve that.
+It is more difficult and not as pretty, but the results
+are the same. 
+
+The for loop below does not sort the output.
+"""
+# https://stackoverflow.com/questions/18936957/count-distinct-words-from-a-pandas-data-frame
+
+
+from collections import Counter
+results = Counter()
+
+# convert all data to str
+aiml_data['post'] = aiml_data['post'].apply(str)
+aiml_data['post'].str.lower().str.split().apply(results.update)
+print(results)
+i = 0 
+for key, value in results.items():
+    print(key, value, sep='\t')
+    i += 1
+    if i > 10:
+        break
+
 #%% start nltk and download
 
 import nltk
