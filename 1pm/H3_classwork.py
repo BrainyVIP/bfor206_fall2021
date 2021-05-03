@@ -9,6 +9,7 @@ Created on Mon Apr 26 13:00:05 2021
 
 import re
 import pandas as pd
+from datetime import datetime
 
 #%% define functions
 
@@ -106,23 +107,58 @@ def extract_username(row):
     
     return username.group(1)
 
-#%% testing
 
-# these are test cases to make sure functions work as expected
-message_row = '00:25 < ice231> anyone good with exploiting cisco asa with extrabacon?'
-message_row2 = '01:17 <+nemecy> hi'
-join_row = '00:01 -!- Guest40341 [AndChat2541@AN-pl0gl1.8e2d.64f9.r226rd.IP] has quit [Quit: Bye]'
+def get_time(row):
+    """
+    This function looks at the start of the row
+    and finds the time. It returns the time in HH:MM format.
 
-# this should return True
-is_message_row(message_row)
+    Parameters
+    ----------
+    row : str
+        DESCRIPTION.
 
-# should return false
-is_message_row(join_row)
+    Returns
+    -------
+    The time in the format of HH:MM.
 
-# check username parsing
-test = extract_username(message_row)
-# check to see if it returns the correct value
-extract_username(message_row2) == 'nemecy'
+    """
+    
+    
+    time = re.search('[0-9]{2}:[0-9]{2}', row)
+    
+    return time.group(0)
+
+
+def get_date(row):
+    """
+    
+
+    Parameters
+    ----------
+    row : TYPE
+        DESCRIPTION.
+
+    Returns
+    -------
+    The date in 'YYYY-MM-DD' format.
+
+    """
+    
+    #  remove this line when done
+    # row = '--- Log opened Tue Sep 20 00:01:49 2016'
+    
+    # split on spaces and inspect the parts
+    date_parts = row.split()
+    
+    # join this into a single string
+    formatted_date = "-".join([date_parts[7], date_parts[4], date_parts[5]])
+    
+    # convert from string to datetime format
+    dt_date = datetime.strptime(formatted_date, '%Y-%b-%d')
+    
+    return dt_date
+    
 
 #%% read in data
 
