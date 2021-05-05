@@ -14,6 +14,8 @@ Add some formal test.
 import re
 import pandas as pd
 from datetime import datetime
+from nltk.corpus import words
+
 
 #%% read data file
 
@@ -194,6 +196,42 @@ def get_date(row):
     formatted_date = datetime.strptime(raw_date, '%Y-%b-%d')
     print(formatted_date)
     return formatted_date
+
+
+
+def check_non_english_words(word_counts):
+    """
+    Pass a dictionary (Python dictionary) with words and their counts.
+    Check for each word in the English word list.
+    Return the dictionary of non-English words
+    
+    This method is useful if you use Collections and Counter 
+    (like in HW2) to get your word counts.
+    
+    This solution is based on this:
+        https://stackoverflow.com/questions/3420122/filter-dict-to-contain-only-certain-keys
+
+    Parameters
+    ----------
+    word_counts : dict
+        Unique words and their counts
+
+    Returns
+    -------
+    Filtered dictionary of words not found in English.
+    """
+    
+    word_list = set(words.words())
+    # print(word_list)
+    
+    non_english_keys = set(word_counts.keys()) - word_list
+    
+    # from the stackoverflow linked above^
+    # dict_you_want = { your_key: old_dict[your_key] for your_key in your_keys }
+    non_english_counts = { your_key: word_counts[your_key] for your_key in non_english_keys }
+
+    return non_english_counts
+    
 
 
 #%% find comment rows (rows that start with ---)

@@ -71,3 +71,19 @@ import datetime
 
 def test_get_date(row, expected):
     assert irc.get_date(row) == expected
+    
+    
+    
+    
+    
+#%% test non-english words
+# this is the what the original word count data would like 
+word_counts = {'the': 50, 'asdfasdf': 4, 'python': 100, 'qqqqqqqqqqqqq': 1}
+
+# this is what we expect our function to return:
+non_english_expected = {'asdfasdf': 4, 'qqqqqqqqqqqqq': 1}
+
+@pytest.mark.parametrize('word_counts, expected', [(word_counts, non_english_expected)])
+
+def test_check_non_english_words(word_counts, expected):
+    assert irc.check_non_english_words(word_counts) == expected

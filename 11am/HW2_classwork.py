@@ -144,7 +144,7 @@ words = aiml_data['post'].str.lower().str.split(expand=True).stack().value_count
 print(words[:10])
 
 
-
+#%% better way
 """
 some machines have problems with memory allocation if 
 using the above method, this method should solve that.
