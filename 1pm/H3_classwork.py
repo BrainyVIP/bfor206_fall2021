@@ -10,6 +10,7 @@ Created on Mon Apr 26 13:00:05 2021
 import re
 import pandas as pd
 from datetime import datetime
+from nltk.corpus import words
 
 #%% define functions
 
@@ -105,6 +106,12 @@ def extract_username(row):
     
     #print(username, username)
     
+    """
+    if we allow any data in that is not clean, hide the errors
+    using a try catch, or avoid them entirely by using and if statement
+    much like the is_message function
+    """
+    
     return username.group(1)
 
 
@@ -159,6 +166,48 @@ def get_date(row):
     
     return dt_date
     
+
+def find_non_english_words(word_counts):
+    """
+    Pass a dictionary with 'word': count format. 
+
+    Check the words in the dictionary against the list
+    of words in NLTK English corpus.
+    
+    Return a dictionary with only the keys for non-English words, 
+    with the count for each word. 
+    
+    
+    The solution is based on this answer-
+    https://stackoverflow.com/questions/3420122/filter-dict-to-contain-only-certain-keys
+    
+    Parameters
+    ----------
+    word_counts : dict
+        dictionary with unique words as keys, and their counts as 
+        values.
+
+    Returns
+    -------
+    dictionary with non-English words and their counts.
+
+    """
+    
+    
+    # things we need-
+    # list of English
+    # a way to filter out those words 
+    
+    word_list = set(words.words())
+    
+    # create the list of non English words
+    non_english = set(word_counts.keys()) - set(word_list)
+    
+    # filter them into a new dictionary
+    non_english_counts = { your_key: word_counts[your_key] for your_key in non_english }
+
+    return non_english_counts
+
 
 #%% read in data
 

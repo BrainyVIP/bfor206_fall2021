@@ -35,6 +35,9 @@ import H3_classwork as irc
 message_row = '00:25 < ice231> anyone good with exploiting cisco asa with extrabacon?'
 message_row2 = '01:17 <+nemecy> hi'
 join_row = '00:01 -!- Guest40341 [AndChat2541@AN-pl0gl1.8e2d.64f9.r226rd.IP] has quit [Quit: Bye]'
+join_row2 = '00:01 -!- Guest40341 [AndChat2541@AN-pl0gl1.8e2d.64f9.r226rd.IP] has quit [Quit: < ice231>]'
+
+
 
 date_row = '--- Log opened Tue Sep 20 00:01:49 2016'
 
@@ -55,6 +58,22 @@ def test_is_message_row(row, expected):
 def test_extract_username(row, expected):
     assert irc.extract_username(row) == expected
     
+"""
+# also try it with errors if you want it to raise one 
+# for example, this function should only receive message rows 
+# to process. Otherwise, raise an error
+https://docs.pytest.org/en/stable/assert.html#assertions-about-expected-exceptions
+"""
+
+@pytest.mark.parametrize('row', [(join_row),
+                                 (join_row2)])
+
+def test_extract_username_errors(row):
+    """ the second case of this join_row2 actually finds a match
+        because of what the user could put in their message
+    """
+    with pytest.raises(AttributeError):
+        irc.extract_username(row)
     
 #%% test finding the time from a row
 
@@ -73,3 +92,15 @@ import datetime
 
 def test_get_date(row, expected):
     assert irc.get_date(row) == expected
+    
+    
+#%% test finding non-English words
+# this test is better, because Wednesday is different than wednesday
+# word_counts = {'the': 100, 'asdfasdf': 4, 'wednesday': 20, 'aaaaaaaaa': 1}
+word_counts = {'the': 100, 'asdfasdf': 4, 'python': 20, 'aaaaaaaaa': 1}
+non_english_expected = {'asdfasdf': 4, 'aaaaaaaaa': 1}
+
+@pytest.mark.parametrize('word_counts, expected', [(word_counts, non_english_expected)])
+
+def test_find_non_english_words(word_counts, expected):
+    assert irc.find_non_english_words(word_counts) == expected
